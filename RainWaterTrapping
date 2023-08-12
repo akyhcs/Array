@@ -1,0 +1,81 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String secondLine = bufferedReader.readLine();
+		int sizeOfArr = Integer.parseInt(firstLine.trim());
+		long inputArr[] = new long[sizeOfArr];
+		inputArr = setArrVal(secondLine, inputArr);
+		getMaxWaterTrapper(inputArr);
+    }
+    private static void getMaxWaterTrapper(long[] arr) {
+		long[] prefixMax = new long[arr.length];
+		long[] suffixMax = new long[arr.length];
+		long maxWateredStored = 0,waterStoredCurrentIndex;
+		long leftMax,
+			 rightMax;
+		int i,lastIndex=arr.length-1;
+		long decidingHeight = 0;
+		initPrefixMax(prefixMax, arr);
+		initSuffixMax(suffixMax, arr);
+		
+		for (i = 1; i < arr.length-1; i++) {
+
+				leftMax = prefixMax[i - 1];
+				rightMax = prefixMax[i + 1];
+			    decidingHeight = getMin(leftMax, rightMax);
+			    if(decidingHeight > arr[i])
+			    {
+			    	waterStoredCurrentIndex = decidingHeight - arr[i]; 
+			    	maxWateredStored = maxWateredStored + waterStoredCurrentIndex;
+		    	}
+		
+		}
+		System.out.println(maxWateredStored);
+		
+		
+	}
+
+	private static long getMin(long leftMax, long rightMax) {
+
+		return leftMax < rightMax ? leftMax : rightMax;
+	}
+
+	private static void initPrefixMax(long[] prefixMax, long[] arr) {
+		prefixMax[0] = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			prefixMax[i] = getMax(prefixMax[i - 1], arr[i]);
+		}
+	}
+
+	private static void initSuffixMax(long[] suffixMax, long[] arr) {
+
+		suffixMax[arr.length - 1] = arr[arr.length - 1];
+		for (int i = arr.length - 2; i >= 0; i--) {
+			suffixMax[i] = getMax(suffixMax[i + 1], arr[i]);
+		}
+	}
+    private static long getMax(long l, long m) {
+
+		return l > m ? l : m;
+	}
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+
+
+}
