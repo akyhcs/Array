@@ -1,0 +1,58 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+ InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String secondLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int sizeOfArr = Integer.parseInt(firstLineInput[0]);
+		int kRotation = Integer.parseInt(firstLineInput[1]);
+		long inputArr[] = new long[sizeOfArr];
+		inputArr = setArrVal(secondLine, inputArr);
+		rotateKTimesClockwise(inputArr,kRotation);
+		display(inputArr);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+	private static void display(long[] inputArr) {
+		for(int i =0 ;i<inputArr.length;i++)
+			System.out.print(inputArr[i]+" ");
+		
+	}
+	private static void rotateKTimesClockwise(long[] inputArr, int kRotation) {
+		//int firstPart = inputArr.length-kRotation;//reverse 0 to firstPart-1
+		//int secondPart = kRotation;//firstPart to n
+		//rev first n-k inputArr.length-kRotation 5-3=2 so 0,1
+		reverse(inputArr,0,inputArr.length-kRotation-1);
+		reverse(inputArr,inputArr.length-kRotation,inputArr.length-1);
+		reverse(inputArr, 0, inputArr.length-1);
+	}
+	private static void reverse(long[] inputArr, int i, int j) {
+		
+		while(i<j)
+		{
+			long temp = inputArr[i];
+			inputArr[i] = inputArr[j];
+			inputArr[j]  = temp;
+			i++;
+			j--;
+		}
+		
+	}
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
