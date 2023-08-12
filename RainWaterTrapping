@@ -31,7 +31,7 @@ public class Main
 		for (i = 1; i < arr.length-1; i++) {
 
 				leftMax = prefixMax[i - 1];
-				rightMax = prefixMax[i + 1];
+				rightMax = suffixMax[i + 1];
 			    decidingHeight = getMin(leftMax, rightMax);
 			    if(decidingHeight > arr[i])
 			    {
