@@ -1,0 +1,99 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+   InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String secondLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int sizeOfArr = Integer.parseInt(firstLineInput[0]);
+		long inputArr[] = new long[sizeOfArr];
+		inputArr = setArrVal(secondLine, inputArr);
+		long profit = getBestTimeBuyandSellStock(inputArr);
+		if(profit!=Long.MIN_VALUE)
+			System.out.println(profit);
+		else
+			System.out.println(0);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	
+
+
+	private static long getBestTimeBuyandSellStock(long[] inputArr) {
+		long prifixMin[] = getPrefixMin(inputArr);//get the minimum cp
+		long currentProfit = Long.MIN_VALUE;
+		long maxProfit = Long.MIN_VALUE;
+		for(int i = 1;i<inputArr.length;i++)
+		{
+			if(inputArr[i] > prifixMin[i-1]) {
+				currentProfit = inputArr[i] - prifixMin[i-1];
+				if(currentProfit>maxProfit)
+				{
+					maxProfit = currentProfit;
+				}
+			}
+			
+		}
+		return maxProfit;
+	}
+
+
+
+
+	private static long[] getPrefixMin(long[] inputArr) {
+		long prefixMin[] = new long[inputArr.length];
+		prefixMin[0] = inputArr[0];
+		for(int i = 1;i<inputArr.length;i++)
+		{
+			prefixMin[i] = getMin(prefixMin[i-1],inputArr[i]);
+		}
+		return prefixMin;
+	}
+
+
+
+
+	private static long getMin(long l, long m) {
+		return l<m?l:m;
+	}
+
+
+
+
+	private static long getMax(long l, long m) {
+		return l > m ? l : m;
+	}
+
+	private static long[] getPrefixMax(long[] inputArr) {
+		long prefixMax[] = new long[inputArr.length];
+		prefixMax[0] = inputArr[0];
+		for (int i = 1; i < inputArr.length; i++) {
+			prefixMax[i] = getMax(prefixMax[i - 1], inputArr[i]);
+		}
+		return prefixMax;
+	}
+/*
+	private static void display(long[] inputArr) {
+		for (int i = 0; i < inputArr.length; i++)
+			System.out.print(inputArr[i] + " ");
+		System.out.println();
+	}
+*/
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
