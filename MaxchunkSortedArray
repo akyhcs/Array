@@ -1,0 +1,39 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception{
+    InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String secondLine = bufferedReader.readLine();
+		int sizeOfArr = Integer.parseInt(firstLine.trim());
+		long inputArr[] = new long[sizeOfArr];
+		inputArr = setArrVal(secondLine, inputArr);
+		int n = getTotalNumberOfChunk(inputArr);
+		System.out.println(n);
+	}
+	private static int getTotalNumberOfChunk(long[] inputArr) {
+        int count = 0;
+		long max = Long.MIN_VALUE;
+		for(int i = 0 ;i<inputArr.length;i++)
+		{
+			max = max > inputArr[i] ? max : inputArr[i];
+			if(max==i)
+				count= count+1;
+		}
+		return count;
+	}
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
