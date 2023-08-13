@@ -1,0 +1,116 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+ InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int sizeOfMatrix = Integer.parseInt(firstLineInput[0]);
+		int matrix[][] = new int[sizeOfMatrix][sizeOfMatrix];
+		
+		for(int i = 0;i<sizeOfMatrix;i++)
+		{
+			String secondLine = bufferedReader.readLine();
+			int inputArr[] = new int[sizeOfMatrix];
+			inputArr = setArrVal(secondLine, inputArr);
+			int currentRowNum = i;
+			initMatrix(matrix,currentRowNum,inputArr);
+		}
+		//displayMatrix(matrix);
+		transposeMatrix(matrix);
+		reversersEachRow(matrix);
+		displayMatrix(matrix);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	
+
+
+	private static void displayMatrix(int[][] matrix) {
+		for(int row = 0 ;row<matrix.length;row++)
+		{
+			for(int col = 0;col<matrix[row].length;col++)
+			{
+				System.out.print(matrix[row][col]+" ");
+			}
+			System.out.println();
+		}
+	//	System.out.println("---------------------------------------");
+		
+		
+	}
+
+
+
+
+	private static void reversersEachRow(int[][] matrix) {
+		
+		for(int row = 0 ;row<matrix.length;row++)
+		{
+			int statrtCol = 0;
+			int endCol = matrix[row].length-1;
+			
+			while (statrtCol<endCol) {
+				int temp = matrix[row][statrtCol];
+				matrix[row][statrtCol] = matrix[row][endCol]; 
+				matrix[row][endCol] = temp;
+				endCol--;
+				statrtCol++;
+			}
+		}
+	}
+
+
+
+
+	private static void transposeMatrix(int[][] matrix) {
+		for(int i =0 ;i<matrix.length;i++)
+		{
+			for(int j=i;j<matrix[i].length;j++)
+			{
+				int temp = matrix[j][i];
+				matrix[j][i] = matrix[i][j];
+				matrix[i][j] = temp;
+			}//j
+		}//i
+		
+	}
+
+
+
+
+	private static void initMatrix(int[][] arr, int currentRow, int[] inputArr) {
+		for(int col = 0 ;col<arr[currentRow].length;col++)
+		{
+			arr[currentRow][col] = inputArr[col];
+		}
+		
+	}
+
+
+	private static int[] setArrVal(String currentLine, int arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Integer.parseInt(stringArr[i]);
+		}
+		return arr;
+	}
+
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
