@@ -1,0 +1,110 @@
+package com.prac.arr;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class MaximizeExpression {
+
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String secondLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int sizeOfArr = Integer.parseInt(firstLineInput[0]);
+		int p = Integer.parseInt(firstLineInput[1]);
+		int q = Integer.parseInt(firstLineInput[2]);
+		int r = Integer.parseInt(firstLineInput[3]);
+		long inputArr[] = new long[sizeOfArr];
+		inputArr = setArrVal(secondLine, inputArr);
+		long maxValofExpression = maximizeExpression(p, q, r, inputArr);
+		System.out.println(maxValofExpression);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static long maximizeExpression(int p, int q, int r, long[] inputArr) {
+		long prefixMax[] = getPrefixMax(inputArr);
+		long suffixMax[] = getSuffixMax(inputArr);
+		long suffixMin[] = getSuffixMin(inputArr);
+		long prefixMin[] = getPrefixMin(inputArr);
+		long potentialMax = Long.MIN_VALUE;
+		long intermediateMax = Long.MIN_VALUE;
+		for(int j = 0;j<inputArr.length;j++)
+		{
+			long equOne = getMax(prefixMax[j]*p, prefixMin[j]*p);
+			long equTwo = inputArr[j]*q;
+			long equThree = getMax(suffixMax[j]*r,suffixMin[j]*r);
+			intermediateMax = equOne+equTwo+equThree;
+			if(intermediateMax > potentialMax)
+			{
+				potentialMax = intermediateMax;
+			}
+		}
+		return potentialMax;
+	}
+
+	private static long[] getPrefixMin(long[] inputArr) {
+		long prefixMin[] = new long[inputArr.length];
+		prefixMin[0] = inputArr[0];
+		for (int i = 1; i < inputArr.length; i++) {
+			prefixMin[i] = getMin(prefixMin[i - 1], inputArr[i]);
+		}
+		return prefixMin;
+	}
+
+	private static long getMin(long l, long m) {
+
+		return l < m ? l : m;
+	}
+
+	private static long[] getSuffixMin(long[] inputArr) {
+		long suffixMin[] = new long[inputArr.length];
+		suffixMin[inputArr.length - 1] = inputArr[inputArr.length - 1];
+		for (int i = inputArr.length - 2; i >= 0; i--) {
+			suffixMin[i] = getMin(suffixMin[i + 1], inputArr[i]);
+		}
+		return suffixMin;
+
+	}
+
+	private static long[] getSuffixMax(long[] inputArr) {
+
+		long suffixMin[] = new long[inputArr.length];
+		suffixMin[inputArr.length - 1] = inputArr[inputArr.length - 1];
+		for (int i = inputArr.length - 2; i >= 0; i--) {
+			suffixMin[i] = getMax(suffixMin[i + 1], inputArr[i]);
+		}
+		return suffixMin;
+
+	}
+
+	private static long getMax(long l, long m) {
+		return l > m ? l : m;
+	}
+
+	private static long[] getPrefixMax(long[] inputArr) {
+		long prefixMax[] = new long[inputArr.length];
+		prefixMax[0] = inputArr[0];
+		for (int i = 1; i < inputArr.length; i++) {
+			prefixMax[i] = getMax(prefixMax[i - 1], inputArr[i]);
+		}
+		return prefixMax;
+	}
+
+//	private static void display(long[] inputArr) {
+//		for (int i = 0; i < inputArr.length; i++)
+//			System.out.print(inputArr[i] + " ");
+//		System.out.println();
+//	}
+
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
