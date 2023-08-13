@@ -36,6 +36,21 @@ public class Main
 		long maxProfit = Long.MIN_VALUE;
 		for(int i = 1;i<inputArr.length;i++)
 		{
+/*
+	isExistingProfitLessThanCurrentProfit(existingProfit,currentProfit)
+	existingProfit = currentProfitPrefix[i-1];
+	currentProfit = inputArr[i] - prefixMin[i-1];
+	if(existingProfit < currentProfit)
+	{
+		existingProfit = currentProfit;
+	}
+	else
+	{
+		previousIndex = currentIndex-1
+		existingProfitAt[CurrentIndex] = existingProfitAt[previousIndex];//currentProfitPrefix[i] = currentProfitPrefix[i-1];
+	}
+*/
+
 			if(currentProfitPrefix[i-1] < inputArr[i] - prifixMin[i-1]) {
 				currentProfitPrefix[i] = inputArr[i] - prifixMin[i-1];
 			}
