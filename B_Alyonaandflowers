@@ -1,0 +1,83 @@
+//B_Alyonaandflowers
+//https://codeforces.com/problemset/problem/740/B
+
+//package com.prac.arr;
+ 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+ 
+public class Read {
+ 
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int sizeOfArr = Integer.parseInt(firstLineInput[0]);
+		int numberOfRange = Integer.parseInt(firstLineInput[1]);
+		int matrix[][] = new int[numberOfRange][2];
+		String secondLine = bufferedReader.readLine();
+		int arr[] = new int[sizeOfArr];
+		setArrVal(secondLine, arr);
+		long prefixSum[] = getPrefixSum(arr);
+		long ans = 0;
+		long intermediateSum = 0;
+		for(int i = 0;i<numberOfRange;i++)
+		{
+			String rangeInput[] = bufferedReader.readLine().trim().split(" ");
+			int startIndex = Integer.parseInt(rangeInput[0]);
+			int endIndex = Integer.parseInt(rangeInput[1]);
+			startIndex = startIndex-1;
+			endIndex = endIndex-1;
+			if(isRangeCummulativeSumPositive(prefixSum,startIndex,endIndex))
+			{
+				if(startIndex-1>=0)
+					intermediateSum = intermediateSum + prefixSum[endIndex] - prefixSum[startIndex-1];
+				else
+					intermediateSum = intermediateSum + prefixSum[endIndex] ;
+			}
+		}
+		System.out.println(intermediateSum);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+ 
+	private static long[] getPrefixSum(int[] arr) {
+		long prefixSum[] = new long[arr.length];
+		prefixSum[0] = arr[0];
+		for(int i = 1 ;i<arr.length;i++)
+		{
+			prefixSum[i] = prefixSum[i-1]+arr[i];
+		}
+		return prefixSum;
+	}
+ 
+	private static boolean isRangeCummulativeSumPositive(long[] prefixSum, int startIndex, int endIndex) {
+		long currentSum ;
+		if(startIndex-1>=0)
+			currentSum =  prefixSum[endIndex] - prefixSum[startIndex-1];
+		else
+			currentSum =  prefixSum[endIndex] ;
+ 
+		return currentSum > 0;
+	}
+ 
+	private static int[] setArrVal(String currentLine, int arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Integer.parseInt(stringArr[i]);
+		}
+		return arr;
+	}
+ 
+	private static long[] setArrVal(String currentLine, long arr[]) {
+		currentLine = currentLine.trim();
+		String stringArr[] = currentLine.split(" ");
+		for (int i = 0; i < stringArr.length; i++) {
+			arr[i] = Long.parseLong(stringArr[i]);
+		}
+		return arr;
+	}
+}
