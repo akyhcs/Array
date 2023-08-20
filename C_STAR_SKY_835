@@ -1,123 +1,117 @@
-
-//https://codeforces.com/problemset/problem/835/C?csrf_token=3ce82597ee05c2991054cd6ad78dd419
-
+//package com.prac.arr;
+ 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-public class StarSky {
-
-	public static void main(String[] args) throws IOException {
-
-		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
-		int n = Integer.parseInt(firstLineInput[0]);
-		int q = Integer.parseInt(firstLineInput[1]);
-		int maxBrightness = Integer.parseInt(firstLineInput[2]);
-		long starSkyMatrix[][][] = new long[maxBrightness+1][100][100];// taking extra matrix for inital brightness
-		initSkyStarMatrix(starSkyMatrix, n, bufferedReader);
-		// display(starSkyMatrix);
-		prepareToProcessQueryEfficiently(starSkyMatrix);//precompute
-		 //System.out.println("---------------------------------------------------------------");
-		 //display(starSkyMatrix);
-		while (q >= 1) {
-			String queryInput[] = bufferedReader.readLine().trim().split(" ");
-			int ti = Integer.parseInt(queryInput[0]);
-			int x1 = Integer.parseInt(queryInput[1]);
-			int y1 = Integer.parseInt(queryInput[2]);
-			int x2 = Integer.parseInt(queryInput[3]);
-			int y2 = Integer.parseInt(queryInput[4]);
-			long currentQueryOutput = processQuerry(ti, x1 - 1, y1 - 1, x2 - 1, y2 - 1, starSkyMatrix);// we are 0 base
-																										// indexing
-			System.out.println(currentQueryOutput);
-			q--;
-		}
-		bufferedReader.close();
-		inputStreamReader.close();
-
-	}
-
-	private static void display(long[][][] starSkyMatrix) {
-		for (int i = 0; i < starSkyMatrix.length; i++) {
-			for (int j = 0; j < 5; j++) {
-				for (int k = 0; k < 5; k++) {
-					System.out.print(starSkyMatrix[i][j][k] + " ");
-				}
-				System.out.println();
-			}
-			System.out.println("*********************");
-			System.out.println("*********************");
-
-		}
-
-	}
-
-	private static long processQuerry(int ti, int x1, int y1, int x2, int y2, long[][][] starSkyMatrix) {
-		
-		ti = ti % starSkyMatrix.length;// starSkyMatrix.length => maxBrightness+1
-		long currentQueryOutput = starSkyMatrix[ti][x2][y2];
-		boolean isLeftSideMatrixExist = false;
-		boolean isUpperSideMatrixExist = false;
-		// if upper side matrix available
-		if (x1 - 1 >= 0) {
-			currentQueryOutput = currentQueryOutput - starSkyMatrix[ti][x1 - 1][y2];
-			isUpperSideMatrixExist = true;
-		}
-		// if left side matrix available
-		if (y1 - 1 >= 0) {
-			currentQueryOutput = currentQueryOutput - starSkyMatrix[ti][x2][y1 - 1];
-			isLeftSideMatrixExist = true;
-		}
-		
-		if (isLeftSideMatrixExist && isUpperSideMatrixExist) {
-			currentQueryOutput = currentQueryOutput + starSkyMatrix[ti][x1 - 1][y1 - 1];
-		}
-		return currentQueryOutput;
-	}
-
-	// precomputation adding row and column
-	private static void prepareToProcessQueryEfficiently(long[][][] starSkyMatrix) {
-		// add row
-		for (int indexOfCurrentTwoDimMatrix = 0; indexOfCurrentTwoDimMatrix < starSkyMatrix.length; indexOfCurrentTwoDimMatrix++) {
-			// if we are adding row we should start from 1
-			for (int j = 1; j < starSkyMatrix[0].length; j++) {
-				for (int k = 0; k < starSkyMatrix[0][j].length; k++) {
-					starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k] = starSkyMatrix[indexOfCurrentTwoDimMatrix][j
-							- 1][k] + starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k];
-				}
-			}
-			// if we are adding column we should start from 1
-			for (int j = 0; j < starSkyMatrix[0].length; j++) {
-				for (int k = 1; k < starSkyMatrix[0][j].length; k++) {
-					starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k] = starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k
-							- 1] + starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k];
-				}
-			}
-		}
-
-	}
-
-	private static void initSkyStarMatrix(long[][][] starSkyMatrix, int n, BufferedReader bufferedReader)
-			throws IOException {
-		// intialize starSkyMatrix with initial value
-		// first will put initial brightness in starSkyMatrix[0][100][100]
-
-		for (int i = 1; i <= n; i++) {
-			String initialBrightnessCordinates = bufferedReader.readLine().trim();
-			String initialBrightnessCordinatesArr[] = initialBrightnessCordinates.split(" ");
-			int x = Integer.parseInt(initialBrightnessCordinatesArr[0]);
-			int y = Integer.parseInt(initialBrightnessCordinatesArr[1]);
-			x = x - 1;
-			y = y - 1;
-			int s = Integer.parseInt(initialBrightnessCordinatesArr[2]);// initial brightness
-			starSkyMatrix[0][x][y] = s;
-			// increse the brightness for next matrix so that t+1 brightness will be s+1
-			for (int j = 1; j < starSkyMatrix.length; j++) {
-				s = (s + 1) % (starSkyMatrix.length);
-				starSkyMatrix[j][x][y] = s;
-			}
-
-		}
-	}
+ 
+public class ThreeDimensionMatrix {
+ 
+    public static void main(String[] args) throws IOException {
+ 
+        InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
+        int n = Integer.parseInt(firstLineInput[0]);
+        int q = Integer.parseInt(firstLineInput[1]);
+        int maxBrightness = Integer.parseInt(firstLineInput[2]);
+        long starSkyMatrix[][][] = new long[maxBrightness + 1][100][100];// taking extra matrix for inital brightness
+        initSkyStarMatrix(starSkyMatrix, n, bufferedReader);
+        // display(starSkyMatrix);
+        prepareToProcessQueryEfficiently(starSkyMatrix);
+        // System.out.println("---------------------------------------------------------------");
+         //display(starSkyMatrix);
+        while (q >= 1) {
+            String queryInput[] = bufferedReader.readLine().trim().split(" ");
+            int ti = Integer.parseInt(queryInput[0]);
+            int x1 = Integer.parseInt(queryInput[1]);
+            int y1 = Integer.parseInt(queryInput[2]);
+            int x2 = Integer.parseInt(queryInput[3]);
+            int y2 = Integer.parseInt(queryInput[4]);
+            long currentQueryOutput = processQuerry(ti, x1 - 1, y1 - 1, x2 - 1, y2 - 1, starSkyMatrix);// we are 0 base
+                                                                                                        // indexing
+            System.out.println(currentQueryOutput);
+            q--;
+        }
+ 
+    }
+/*
+    private static void display(long[][][] starSkyMatrix) {
+        for (int i = 0; i < starSkyMatrix.length; i++) {
+            for (int j = 0; j < 5; j++) {
+                for (int k = 0; k < 5; k++) {
+                    System.out.print(starSkyMatrix[i][j][k] + " ");
+                }
+                System.out.println();
+            }
+            System.out.println("*********************");
+            System.out.println("*********************");
+ 
+        }
+ 
+    }
+*/
+    private static long processQuerry(int ti, int x1, int y1, int x2, int y2, long[][][] starSkyMatrix) {
+        ti = ti % starSkyMatrix.length;// starSkyMatrix.length => maxBrightness+1
+        long currentQueryOutput = starSkyMatrix[ti][x2][y2];
+        boolean isLeftSideMatrixExist = false;
+        boolean isUpperSideMatrixExist = false;
+        // if left side matrix available
+        if (y1 - 1 >= 0) {
+            currentQueryOutput = currentQueryOutput - starSkyMatrix[ti][x2][y1 - 1];
+            isLeftSideMatrixExist = true;
+        }
+        if (x1 - 1 >= 0) {
+            currentQueryOutput = currentQueryOutput - starSkyMatrix[ti][x1 - 1][y2];
+            isUpperSideMatrixExist = true;
+        }
+        if (isLeftSideMatrixExist && isUpperSideMatrixExist) {
+            currentQueryOutput = currentQueryOutput + starSkyMatrix[ti][x1 - 1][y1 - 1];
+        }
+        return currentQueryOutput;
+    }
+ 
+    // precomputation adding row and column
+    private static void prepareToProcessQueryEfficiently(long[][][] starSkyMatrix) {
+        // add row
+        for (int indexOfCurrentTwoDimMatrix = 0; indexOfCurrentTwoDimMatrix < starSkyMatrix.length; indexOfCurrentTwoDimMatrix++) {
+            // if we are adding row we should start from 1
+            for (int j = 1; j < starSkyMatrix[0].length; j++) {
+                for (int k = 0; k < starSkyMatrix[0][j].length; k++) {
+                    starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k] = starSkyMatrix[indexOfCurrentTwoDimMatrix][j
+                            - 1][k] + starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k];
+                }
+            }
+            // if we are adding column we should start from 1
+            for (int j = 0; j < starSkyMatrix[0].length; j++) {
+                for (int k = 1; k < starSkyMatrix[0][j].length; k++) {
+                    starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k] = starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k
+                            - 1] + starSkyMatrix[indexOfCurrentTwoDimMatrix][j][k];
+                }
+            }
+        }
+ 
+    }
+ 
+    private static void initSkyStarMatrix(long[][][] starSkyMatrix, int n, BufferedReader bufferedReader)
+            throws IOException {
+        // intialize starSkyMatrix with initial value
+        // first will put initial brightness in starSkyMatrix[0][100][100]
+ 
+        for (int i = 1; i <= n; i++) {
+            String initialBrightnessCordinates = bufferedReader.readLine().trim();
+            String initialBrightnessCordinatesArr[] = initialBrightnessCordinates.split(" ");
+            int x = Integer.parseInt(initialBrightnessCordinatesArr[0]);
+            int y = Integer.parseInt(initialBrightnessCordinatesArr[1]);
+            x = x - 1;
+            y = y - 1;
+            int s = Integer.parseInt(initialBrightnessCordinatesArr[2]);// initial brightness
+            starSkyMatrix[0][x][y] += s;///more than one star possible in single co-rodinate 
+            // increse the brightness for next matrix so that t+1 brightness will be s+1
+            for (int j = 1; j < starSkyMatrix.length; j++) {
+                s = (s + 1) % (starSkyMatrix.length);
+                starSkyMatrix[j][x][y] += s;///more than one star possible in single co-rodinate
+            }
+ 
+        }
+    }
 }
