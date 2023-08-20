@@ -105,7 +105,7 @@ public class ThreeDimensionMatrix {
             x = x - 1;
             y = y - 1;
             int s = Integer.parseInt(initialBrightnessCordinatesArr[2]);// initial brightness
-            starSkyMatrix[0][x][y] += s;///more than one star possible in single co-rodinate 
+            starSkyMatrix[0][x][y] += s;///more than one star possible in single co-rodinate . inital brightness will not exceed maximum brightness and an initial brightness si (0 ≤ si ≤ c).
             // increse the brightness for next matrix so that t+1 brightness will be s+1
             for (int j = 1; j < starSkyMatrix.length; j++) {
                 s = (s + 1) % (starSkyMatrix.length);
