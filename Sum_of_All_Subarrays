@@ -1,0 +1,44 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+//reverse lookup
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+	
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
+		int arrSize = Integer.parseInt(firstLineInput[0]);
+		int arr[] = new int[arrSize];
+		String stringArrInput[] = bufferedReader.readLine().trim().split(" ");
+		initArr(arr,stringArrInput);
+		long sum = getSumOfAllSubArray(arr);
+		System.out.println(sum);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static long getSumOfAllSubArray(int[] arr) {
+		long sum = 0;
+		long mod = (long)(Math.pow(10,9)+7);
+		for(int i =0 ;i<arr.length;i++)
+		{
+			long currentContributer = (((i+1)%mod * (arr.length-i)%mod) * arr[i]%mod)%mod;
+			sum = (sum % mod + currentContributer%mod)%mod;
+		}
+		return sum;
+	}
+
+	private static void initArr(int[] arr, String[] stringArrInput) {
+		for(int i =0 ;i<arr.length;i++)
+		{
+			arr[i] =Integer.parseInt(stringArrInput[i]);
+		}
+		
+	}
+
+}
