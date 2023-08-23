@@ -1,0 +1,54 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+///sum of all sub-matrix
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+ 		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLineInput[] = bufferedReader.readLine().trim().split(" ");
+		int row = Integer.parseInt(firstLineInput[0]);
+		int col = Integer.parseInt(firstLineInput[1]);
+		long arr[][] = new long[row][col];
+		long sum = 0;
+		int currentRowInput = 0;
+		while (currentRowInput < row) {
+			String stringArrInput[] = bufferedReader.readLine().trim().split(" ");
+			initMat(arr, stringArrInput, currentRowInput);
+			currentRowInput++;
+		}
+		sum = calculateMatSum(arr);
+		System.out.println(sum);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static long calculateMatSum(long[][] arr) {
+		long equationOne, equationTwo, equationThree, sum=0, currentContribution;
+		int row = arr.length;
+		int col = arr[0].length;
+		long mod = (long)(Math.pow(10, 9)+7);
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+				equationOne = ((i+1)%mod * (j+1)%mod)%mod;
+				equationTwo = ((row-i)%mod * (col-j)%mod)%mod;
+				equationThree = arr[i][j]%mod;
+				currentContribution = (equationOne*equationTwo*equationThree)%mod;
+				sum  = (sum%mod + currentContribution%mod)%mod;
+			}
+		}
+		return sum;
+	}
+
+	private static void initMat(long[][] arr, String[] stringArrInput, int currentRowInput) {
+
+		for (int col = 0; col < arr[currentRowInput].length; col++) {
+			arr[currentRowInput][col] = Integer.parseInt(stringArrInput[col]);
+		}
+	}
+
+}
