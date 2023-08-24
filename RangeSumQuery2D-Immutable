@@ -1,0 +1,102 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+    InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String firstLine = bufferedReader.readLine();
+		String firstLineInput[] = firstLine.trim().split(" ");
+		int row = Integer.parseInt(firstLineInput[0]);
+		int col = Integer.parseInt(firstLineInput[1]);
+		long matrix[][] = new long[row][col];
+		int currentRow = 0;
+		while(currentRow<row)
+		{
+			String currentRowInput[] = bufferedReader.readLine().trim().split(" ");
+			initCurrentRow(matrix,currentRow,currentRowInput);
+			currentRow++;
+		}
+		addRowColum(matrix);
+		String totalQueryString = bufferedReader.readLine();
+		int query = Integer.parseInt(totalQueryString);
+		while (query>=1) {
+			String currentCoordiantes[] = bufferedReader.readLine().trim().split(" ");
+			int x1 = Integer.parseInt(currentCoordiantes[0]);
+			int y1 = Integer.parseInt(currentCoordiantes[1]);
+			int x2 = Integer.parseInt(currentCoordiantes[2]);
+			int y2 = Integer.parseInt(currentCoordiantes[3]);
+			long currentCoordinatesResult = processQuery(x1,y1,x2,y2,matrix);
+			System.out.println(currentCoordinatesResult);
+			query--;
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static void displayMatrix(long[][] matrix) {
+		for(int i =0 ;i<matrix.length;i++)
+		{
+			for(int j = 0 ;j<matrix[i].length;j++)
+			{
+				System.out.print(matrix[i][j]+" ");
+			}
+			System.out.println();
+		}
+		
+	}
+
+	private static void addRowColum(long[][] matrix) {
+		//add row
+		for(int i =1;i<matrix.length;i++)
+		{
+			for(int j = 0;j<matrix[0].length;j++)
+			{
+				matrix[i][j] =matrix[i][j]+ matrix[i-1][j];
+			}
+		}
+		
+		//add column
+		for(int i = 0 ;i<matrix.length;i++)
+		{
+			for(int j = 1;j<matrix[i].length;j++)
+			{
+				matrix[i][j] = matrix[i][j] + matrix[i][j-1];
+			}
+		}
+		
+	}
+
+	private static long processQuery(int x1, int y1, int x2, int y2,long matrix[][]) {
+		
+		long sum = matrix[x2][y2];
+		if(y1-1 >= 0)
+		{
+			sum = sum - matrix[x2][y1-1];
+		}
+		if(x1-1 >= 0)
+		{
+			sum = sum - matrix[x1-1][y2];
+		}
+		if(x1-1 >= 0 && y1-1>=0)
+		{
+			sum = sum + matrix[x1-1][y1-1];
+		}
+		return sum;	
+	}
+
+	private static void initCurrentRow(long[][] matrix, int currentRow, String currentRowInput[]) {
+		
+		for(int col =0 ;col<matrix[currentRow].length;col++)
+		{
+			matrix[currentRow][col] = Long.parseLong(currentRowInput[col]);
+		}
+	}
+
+
+}
