@@ -1,0 +1,60 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+ //Maximum Number of Vowels in Substring of Given Length sliding window
+	public static void main(String[] args) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int totalTestCase = Integer.parseInt(bufferedReader.readLine().trim());
+		while (totalTestCase > 0) {
+			String currentInput[] = bufferedReader.readLine().trim().split(" ");
+			String currentStringforProcessing = currentInput[0];
+			int windowSize = Integer.parseInt(currentInput[1]);
+			int maxVowelForCurrentString = getMaxVowelForCurrentString(currentStringforProcessing, windowSize);
+			System.out.println(maxVowelForCurrentString);
+			totalTestCase--;
+		}
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static int getMaxVowelForCurrentString(String currentInput, int windowSize) {
+		int maxVowel = Integer.MIN_VALUE;
+		int vowelPresentinCurrentWindow = 0;
+		for (int i = 0; i < windowSize; i++) {
+
+			if (isCharaterPresentAtGivenIndexVowel(currentInput.charAt(i))) {
+				vowelPresentinCurrentWindow++;
+			}
+
+		}
+		if (maxVowel < vowelPresentinCurrentWindow) {
+			maxVowel = vowelPresentinCurrentWindow;
+		}
+
+		for (int i = windowSize; i < currentInput.length(); i++) {
+			if (isCharaterPresentAtGivenIndexVowel(currentInput.charAt(i))) {
+				vowelPresentinCurrentWindow++;
+			}
+			if (isCharaterPresentAtGivenIndexVowel(currentInput.charAt(i - windowSize))) {
+				vowelPresentinCurrentWindow--;
+			}
+			if (maxVowel < vowelPresentinCurrentWindow) {
+				maxVowel = vowelPresentinCurrentWindow;
+			}
+		}
+		return maxVowel;
+	}
+
+	private static boolean isCharaterPresentAtGivenIndexVowel(char currentChar) {
+
+		return currentChar == 'a' || currentChar == 'e' || currentChar == 'i' || currentChar == 'o'
+				|| currentChar == 'u';
+	}
+
+}
