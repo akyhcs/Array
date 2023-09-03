@@ -1,0 +1,45 @@
+///https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        return getAllDisappearedElelemnt(performCyclicSort(nums));
+    }
+   private static List<Integer> getAllDisappearedElelemnt(int[] arr) {
+		List<Integer> list = new ArrayList<>();
+		for(int  i = 0;i<arr.length;i++)
+		{
+			if(i!=arr[i]-1)
+			{
+				list.add(i+1);
+			}
+		}
+		return list;
+	}
+
+	private static int[] performCyclicSort(int[] arr) {
+	
+		int i = 0 ;
+		while(i<arr.length)
+		{
+			int currentIndexOfCurentValue = arr[i]-1;
+			/*it will go under infinite loop if arr[0]=>3 and arr[2]=>3 
+			 * then swap will take place but increment will never and it will run infinite loop*/
+			if(i!=currentIndexOfCurentValue && arr[i]!=arr[currentIndexOfCurentValue])
+			{
+				int j = currentIndexOfCurentValue;
+				swap(i,j,arr);	
+			}
+			else
+			{
+				i++;
+			}
+		}
+		return arr;
+	}
+
+	private static void swap(int i, int j, int[] arr) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+
+}
