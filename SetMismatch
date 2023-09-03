@@ -1,0 +1,42 @@
+//https://leetcode.com/problems/set-mismatch/description/
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        return getDuplicateMissingNum(performCyclicSort(nums));
+    }
+    private static int[] getDuplicateMissingNum(int[] arr) {
+		int duplicateandMissingNumArr[] = new int[2];
+		for(int i =0 ;i<arr.length;i++)
+		{
+			if(i!=arr[i]-1)
+			{
+				duplicateandMissingNumArr[0] = arr[i];//duplicate_num
+				duplicateandMissingNumArr[1] = i+1;//missing_num
+			}
+		}
+		return duplicateandMissingNumArr;
+	}
+
+	private static int[] performCyclicSort(int[] arr) {
+		int i = 0;
+		while (i<arr.length) {
+			int correctIndexforCurrentValue = arr[i]-1;
+			if(i!=correctIndexforCurrentValue && arr[i]!=arr[correctIndexforCurrentValue])
+			{
+				swap(i,correctIndexforCurrentValue,arr);
+			}
+			else
+			{
+				i++;
+			}
+		}
+		return arr;
+	}
+
+	private static void swap(int i, int j, int[] arr) {
+		
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
+
+}
