@@ -16,12 +16,12 @@ https://leetcode.com/problems/majority-element/submissions/
 			else
 			{
 				count--;
-			}
-			if(count==0)
-			{
-				//assign a new potential
-				count++;
-				potentialCandidate = arr[i];
+                		if(count==0)
+			    	{
+				    //assign a new potential
+				    count++;
+				    potentialCandidate = arr[i];
+			    	}
 			}
 			
 		}
