@@ -1,0 +1,80 @@
+/* package codechef; // don't place package name! */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    
+    {
+ 		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int matix[][] = initMatrix(bufferedReader);
+		printSpiral(matix);
+		bufferedReader.close();
+		inputStreamReader.close();
+	}
+
+	private static void printSpiral(int[][] matrix) {
+		int startRowIndex = 0,startColIndex = 0;
+		int endRowIndex = matrix.length, endColIndex = matrix[0].length;
+		
+		while(startRowIndex < endRowIndex && startColIndex < endColIndex)
+		{
+			for(int i = startColIndex;i<endColIndex;i++)
+			{
+				System.out.print(matrix[startRowIndex][i]+" ");
+			}
+			startRowIndex++;
+			for(int i = startRowIndex;i<endRowIndex;i++)
+			{
+				System.out.print(matrix[i][endColIndex-1]+" ");
+			}
+			endColIndex--;
+			if(startRowIndex<endRowIndex)
+			{
+				for(int i = endColIndex-1;i>=startColIndex;i--)
+				{
+					System.out.print(matrix[endRowIndex-1][i]+" ");
+				}
+				endRowIndex--;
+			}
+			if(startColIndex<endColIndex)
+			{
+				for(int i = endRowIndex-1;i>=startRowIndex;i--)
+				{
+					System.out.print(matrix[i][startColIndex]+" ");
+				}
+				startColIndex++;
+			}
+		}
+		
+	}
+
+	private static int[][] initMatrix(BufferedReader bufferedReader) throws IOException {
+		String[] firstLineInput = bufferedReader.readLine().trim().split(" ");
+		int row = Integer.parseInt(firstLineInput[0]);
+		int col = Integer.parseInt(firstLineInput[1]);
+		int matrix[][] = new int[row][col];
+		int currentRow = 0 ;
+		while(currentRow<row)
+		{
+			String[] currentRowString = bufferedReader.readLine().trim().split(" ");
+			initCurrentRow(currentRow,matrix,currentRowString);
+			++currentRow;
+		}
+		return matrix;
+	}
+
+	private static void initCurrentRow(int currentRow, int[][] matrix, String[] currentRowString) {
+		for (int i = 0; i < currentRowString.length; i++) {
+			matrix[currentRow][i] = Integer.parseInt(currentRowString[i]);
+		}
+		
+	}
+
+	
+
+}
