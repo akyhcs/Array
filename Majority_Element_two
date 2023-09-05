@@ -1,0 +1,100 @@
+/* package codechef; // don't place package name! */
+///https://leetcode.com/problems/majority-element-ii/description/
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+public class Main
+{
+    public static void main (String[] args) throws java.lang.Exception
+    {
+ 		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		int totalTestCase = Integer.parseInt(bufferedReader.readLine().trim());
+		while (totalTestCase-- > 0) {
+			int sizeOfArr = Integer.parseInt(bufferedReader.readLine().trim());
+			int arr[] = new int[sizeOfArr];
+			String strArr[] = bufferedReader.readLine().trim().split(" ");
+			copyStringtoIntegerArr(arr,strArr);
+			List<Integer> majorityElement = getMajorityElement(arr);
+			for(int  i =0 ;i<majorityElement.size();i++)
+			{
+				System.out.print(majorityElement.get(i)+" ");
+			}
+			System.out.println();
+		}
+	}
+	 private static List<Integer> getMajorityElement(int[] arr) {
+			
+			List<Integer> list = new ArrayList<Integer>();
+			
+					int potentialCandidateOne = arr[0];
+					int potentialCandidateTwo =arr[0];
+					int countOne = 1;
+
+					int countTwo = 0;
+
+			for(int  i =1 ;i<arr.length;i++)
+			{
+				if(arr[i]==potentialCandidateOne)
+				{
+					countOne++;
+				}
+				else if (arr[i]==potentialCandidateTwo) {
+					countTwo++;
+				}
+				else
+				{
+					if(countOne==0)
+					{
+						countOne++;
+						potentialCandidateOne = arr[i];
+					}
+					else if(countTwo==0)
+					{
+						countTwo++;
+						potentialCandidateTwo = arr[i];
+					}else {
+						countOne--;
+						countTwo--;
+					}
+
+				}
+				
+			}
+			if(countOne>0)
+			{
+				if(isMajorityElement(arr,potentialCandidateOne))
+				{
+					list.add(potentialCandidateOne);
+				}
+			}
+			if(countTwo>0)
+			{
+				if (potentialCandidateOne!=potentialCandidateTwo&&isMajorityElement(arr, potentialCandidateTwo)) {
+					list.add(potentialCandidateTwo);
+				}
+			}
+			
+			return list;
+	 }
+	private static boolean isMajorityElement(int[] arr, int potentialCandidateOne) {
+		int majorityCount = 0;
+		for(int i=0;i<arr.length;i++)
+		{
+			if(potentialCandidateOne==arr[i])
+			{
+				majorityCount++;
+			}
+		}
+		return majorityCount > (arr.length/3);
+	}
+	private static void copyStringtoIntegerArr(int[] arr, String[] strArr) {
+		for(int i =0 ;i<arr.length;i++)
+		{
+			arr[i] = Integer.parseInt(strArr[i]);
+		}
+	}
+
+}
