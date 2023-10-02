@@ -21,6 +21,7 @@ class Solution {
 		int i = 0;
 		while(i<arr.length)
 		{
+			/*it should be correctIndexofCurrentValue*/
 			int currentIndexOfCurrentValue = arr[i];
 			if(currentIndexOfCurrentValue<arr.length && i!=currentIndexOfCurrentValue)
 			{
