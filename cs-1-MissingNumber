@@ -22,7 +22,7 @@ class Solution {
 		while(i<arr.length)
 		{
 			int currentIndexOfCurrentValue = arr[i];
-			if(arr[i]<arr.length && i!=currentIndexOfCurrentValue)
+			if(currentIndexOfCurrentValue<arr.length && i!=currentIndexOfCurrentValue)
 			{
 				int j = currentIndexOfCurrentValue;
 				swap(i,j,arr);
