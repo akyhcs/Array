@@ -13,7 +13,9 @@ class Solution {
 				return i;
 			}
 		}
-		return arr.length;//if all num are present, because it contains num from 0-n and if 0ton-1 //is already present then only n can be missing 
+		return arr.length;
+//if all num are present, because it contains num from 0-n and if 0 to n-1 
+//is already present then only n can be missing 
 	}
 
 
